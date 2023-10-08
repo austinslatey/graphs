@@ -2,8 +2,10 @@ const Edge = require('./Edge.js');
 const Vertex = require('./Vertex.js');
 
 class Graph {
-    constructor() {
-        this.vertices = []; // Initialize vertices as an empty array
+    constructor(isWeighted = false) {
+        // Initialize vertices as an empty array
+        this.vertices = []; 
+        this.isWeighted = isWeighted;
     }
 
     addVertex(data) {
@@ -16,13 +18,15 @@ class Graph {
         this.vertices = this.vertices.filter(vertex => vertex !== vertexToRemove);
     }
 
-    addEdge(vertexOne, vertexTwo) {
+    addEdge(vertexOne, vertexTwo, weight) {
         if (!(vertexOne instanceof Vertex) || !(vertexTwo instanceof Vertex)) {
             throw new Error('Edges must connect two instances of Vertex');
         }
 
-        vertexOne.addEdge(vertexTwo);
-        vertexTwo.addEdge(vertexOne);
+        const edgeWeight = this.isWeighted ? weight : null;
+
+        vertexOne.addEdge(vertexTwo, edgeWeight);
+        vertexTwo.addEdge(vertexOne, edgeWeight);
     }
 
     removeEdge(vertexOne, vertexTwo) {
@@ -47,18 +51,13 @@ class Graph {
 
 module.exports = Graph;
 
-// Creating the train network
-const trainNetwork = new Graph();
+// Create Graph and make weighted 
+const trainNetwork = new Graph(true); 
 
 const atlantaStation = trainNetwork.addVertex('Atlanta');
 const newYorkStation = trainNetwork.addVertex('New York');
 
-// Remove atlanta station
-trainNetwork.addEdge(atlantaStation, newYorkStation);
+trainNetwork.addEdge(atlantaStation, newYorkStation, 800);
 
-trainNetwork.print();
-
-// Remove the edge between Atlanta and New York
-trainNetwork.removeEdge(atlantaStation, newYorkStation);
-
-trainNetwork.print();
+// Print Graph with an edge between ATL & NY having a weight of 800
+trainNetwork.print(); 
