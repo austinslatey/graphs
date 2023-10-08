@@ -1,4 +1,4 @@
-const Graph = require('./Graph.js');
+const Graph = require('./graph/Graph.js');
 
 const trainNetwork = new Graph(true, true);
 const laStation = trainNetwork.addVertex('Los Angeles');
