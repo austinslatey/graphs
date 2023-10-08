@@ -2,10 +2,11 @@ const Edge = require('./Edge.js');
 const Vertex = require('./Vertex.js');
 
 class Graph {
-    constructor(isWeighted = false) {
+    constructor(isWeighted = false, isDirected = false) {
         // Initialize vertices as an empty array
-        this.vertices = []; 
+        this.vertices = [];
         this.isWeighted = isWeighted;
+        this.isDirected = isDirected;
     }
 
     addVertex(data) {
@@ -26,22 +27,31 @@ class Graph {
         const edgeWeight = this.isWeighted ? weight : null;
 
         vertexOne.addEdge(vertexTwo, edgeWeight);
-        vertexTwo.addEdge(vertexOne, edgeWeight);
+
+        if (!this.isDirected) {
+            // If it's undirected, add the reverse edge
+            vertexTwo.addEdge(vertexOne, edgeWeight);
+        }
     }
 
     removeEdge(vertexOne, vertexTwo) {
         if (!(vertexOne instanceof Vertex) || !(vertexTwo instanceof Vertex)) {
-          throw new Error('Edges must connect two instances of Vertex');
+            throw new Error('Edges must connect two instances of Vertex');
         }
-    
+
         // Make sure edges is initialized
         vertexOne.edges = vertexOne.edges || [];
         vertexTwo.edges = vertexTwo.edges || [];
-    
-        // Remove the edge
-        vertexOne.removeEdge(vertexTwo);
-        vertexTwo.removeEdge(vertexOne);
-      }
+
+        // Remove the edge only if it's undirected
+        if (!this.isDirected) {
+            vertexOne.removeEdge(vertexTwo);
+            vertexTwo.removeEdge(vertexOne);
+        } else {
+            // If it's directed, only remove the edge from vertexOne to vertexTwo
+            vertexOne.removeEdge(vertexTwo);
+        }
+    }
 
     print() {
         const vertexList = this.vertices || [];
@@ -51,13 +61,17 @@ class Graph {
 
 module.exports = Graph;
 
-// Create Graph and make weighted 
-const trainNetwork = new Graph(true); 
+// In Graph.js (Usage)
+const trainNetwork = new Graph(false, true); // Make the graph unweighted and directed
 
 const atlantaStation = trainNetwork.addVertex('Atlanta');
 const newYorkStation = trainNetwork.addVertex('New York');
 
-trainNetwork.addEdge(atlantaStation, newYorkStation, 800);
+trainNetwork.addEdge(atlantaStation, newYorkStation);
 
-// Print Graph with an edge between ATL & NY having a weight of 800
-trainNetwork.print(); 
+trainNetwork.print(); // This will print the graph with an edge going from Atlanta to New York
+
+// Remove the edge between Atlanta and New York
+trainNetwork.removeEdge(atlantaStation, newYorkStation);
+
+trainNetwork.print();
