@@ -25,6 +25,20 @@ class Graph {
         vertexTwo.addEdge(vertexOne);
     }
 
+    removeEdge(vertexOne, vertexTwo) {
+        if (!(vertexOne instanceof Vertex) || !(vertexTwo instanceof Vertex)) {
+          throw new Error('Edges must connect two instances of Vertex');
+        }
+    
+        // Make sure edges is initialized
+        vertexOne.edges = vertexOne.edges || [];
+        vertexTwo.edges = vertexTwo.edges || [];
+    
+        // Remove the edge
+        vertexOne.removeEdge(vertexTwo);
+        vertexTwo.removeEdge(vertexOne);
+      }
+
     print() {
         const vertexList = this.vertices || [];
         vertexList.forEach(vertex => vertex.print());
@@ -42,4 +56,9 @@ const newYorkStation = trainNetwork.addVertex('New York');
 // Remove atlanta station
 trainNetwork.addEdge(atlantaStation, newYorkStation);
 
-trainNetwork.print(); 
+trainNetwork.print();
+
+// Remove the edge between Atlanta and New York
+trainNetwork.removeEdge(atlantaStation, newYorkStation);
+
+trainNetwork.print();

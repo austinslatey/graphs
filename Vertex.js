@@ -6,7 +6,7 @@ class Vertex {
         this.edges = []; // Initialize edges as an empty array
     }
 
-    
+
 
 
     print() {
@@ -19,16 +19,16 @@ class Vertex {
 
     addEdge(vertex) {
         if (!(vertex instanceof Vertex)) {
-          throw new Error('Edge must connect to an instance of Vertex');
+            throw new Error('Edge must connect to an instance of Vertex');
         }
-    
+
         const edge = new Edge(this, vertex);
         this.edges.push(edge);
-      }
+    }
 
-      removeEdge(endingVertex) {
+    removeEdge(endingVertex) {
         this.edges = this.edges.filter(edge => edge.end !== endingVertex);
-      }
+    }
 }
 
 module.exports = Vertex;
