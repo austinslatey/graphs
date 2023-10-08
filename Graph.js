@@ -19,3 +19,11 @@ class Graph {
 }
 
 module.exports = Graph;
+
+// Creating the train network
+const trainNetwork = new Graph();
+
+const atlantaStation = trainNetwork.addVertex('Atlanta');
+const newYorkStation = trainNetwork.addVertex('New York');
+
+trainNetwork.print(); 
