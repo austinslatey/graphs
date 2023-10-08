@@ -6,6 +6,8 @@ class Vertex {
         this.edges = []; // Initialize edges as an empty array
     }
 
+    
+
 
     print() {
         const edgeList = this.edges.map(edge =>
