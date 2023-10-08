@@ -16,6 +16,19 @@ class Vertex {
         const output = `${this.data} --> ${edgeList.join(', ')}`;
         console.log(output);
     }
+
+    addEdge(vertex) {
+        if (!(vertex instanceof Vertex)) {
+          throw new Error('Edge must connect to an instance of Vertex');
+        }
+    
+        const edge = new Edge(this, vertex);
+        this.edges.push(edge);
+      }
+
+      removeEdge(endingVertex) {
+        this.edges = this.edges.filter(edge => edge.end !== endingVertex);
+      }
 }
 
 module.exports = Vertex;

@@ -10,11 +10,20 @@ class Graph {
         const newVertex = new Vertex(data);
         this.vertices.push(newVertex);
         return newVertex;
-      }
+    }
 
-      removeVertex(vertexToRemove) {
+    removeVertex(vertexToRemove) {
         this.vertices = this.vertices.filter(vertex => vertex !== vertexToRemove);
-      }
+    }
+
+    addEdge(vertexOne, vertexTwo) {
+        if (!(vertexOne instanceof Vertex) || !(vertexTwo instanceof Vertex)) {
+            throw new Error('Edges must connect two instances of Vertex');
+        }
+
+        vertexOne.addEdge(vertexTwo);
+        vertexTwo.addEdge(vertexOne);
+    }
 
     print() {
         const vertexList = this.vertices || [];
@@ -31,6 +40,6 @@ const atlantaStation = trainNetwork.addVertex('Atlanta');
 const newYorkStation = trainNetwork.addVertex('New York');
 
 // Remove atlanta station
-trainNetwork.removeVertex(atlantaStation);
+trainNetwork.addEdge(atlantaStation, newYorkStation);
 
 trainNetwork.print(); 
